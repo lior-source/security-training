@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure Development Training Day — AlphaDevs</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #fafaf8;
+    color: #1a1a1a;
+    line-height: 1.6;
+    padding: 40px 20px;
+  }
+
+  .container {
+    max-width: 840px;
+    margin: 0 auto;
+  }
+
+  /* ── Header ── */
+  .header { margin-bottom: 36px; }
+  .header .label {
+    font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase; color: #888; margin-bottom: 8px;
+  }
+  .header h1 { font-size: 32px; font-weight: 700; color: #1a1a1a; margin-bottom: 6px; }
+  .header .subtitle { font-size: 15px; color: #666; }
+  .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+  .tag {
+    font-size: 12px; padding: 5px 12px; background: #fff;
+    border: 1px solid #ddd; border-radius: 20px; color: #444; font-weight: 500;
+  }
+
+  /* ── Stats bar ── */
+  .stats-bar {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: #e8e6e1; border-radius: 12px; overflow: hidden; margin: 32px 0;
+  }
+  .stat { background: #f5f4f0; padding: 24px 20px; }
+  .stat .number { font-size: 28px; font-weight: 700; color: #1a1a1a; }
+  .stat .stat-label {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.8px;
+    text-transform: uppercase; color: #888; margin-top: 4px;
+  }
+
+  /* ── Status banner ── */
+  .status-banner {
+    background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px;
+    padding: 22px 28px; margin-bottom: 32px;
+  }
+  .status-banner .status-title {
+    font-size: 13px; font-weight: 700; color: #92400e;
+    text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px;
+  }
+  .status-banner p { font-size: 14px; color: #78350f; line-height: 1.7; }
+  .status-banner .status-eta {
+    margin-top: 10px; font-weight: 600; color: #92400e;
+    font-size: 13px; padding: 6px 14px; background: #fef3c7;
+    border-radius: 6px; display: inline-block;
+  }
+
+  /* ── Section dividers ── */
+  .section-divider {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 0 12px; border-bottom: 1px solid #e0ded8;
+    margin-top: 40px; margin-bottom: 20px;
+  }
+  .section-divider .section-title {
+    font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase; color: #888;
+  }
+  .section-divider .section-time {
+    font-size: 12px; color: #aaa; font-weight: 500;
+  }
+
+  /* ── Module cards ── */
+  .module-card {
+    background: #fff; border: 1px solid #e8e6e1; border-radius: 12px;
+    padding: 28px 32px; margin-bottom: 16px;
+  }
+  .module-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  .module-number {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; border-radius: 50%; background: #f5f4f0;
+    font-size: 14px; font-weight: 600; color: #555; margin-right: 14px; flex-shrink: 0;
+  }
+  .module-title { font-size: 17px; font-weight: 600; color: #1a1a1a; flex: 1; }
+  .module-time-badge {
+    font-size: 12px; font-weight: 500; padding: 4px 12px; border-radius: 6px;
+    background: #f0ede7; color: #666; white-space: nowrap; margin-left: 12px;
+  }
+  .module-desc { font-size: 14px; color: #555; margin-bottom: 16px; line-height: 1.7; }
+
+  /* ── Dev tasks ── */
+  .dev-tasks {
+    background: #fafaf8; border-radius: 8px; padding: 18px 22px; margin-top: 16px;
+  }
+  .dev-tasks .dev-tasks-title {
+    font-size: 10px; font-weight: 600; letter-spacing: 1.2px;
+    text-transform: uppercase; color: #999; margin-bottom: 12px;
+  }
+  .dev-tasks ul { list-style: none; padding: 0; }
+  .dev-tasks li {
+    font-size: 13px; color: #444; padding: 5px 0; padding-left: 16px;
+    position: relative; line-height: 1.6;
+  }
+  .dev-tasks li::before { content: "→"; position: absolute; left: 0; color: #aaa; }
+
+  /* ── Resource tags ── */
+  .resource-tags {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 16px; flex-wrap: wrap; gap: 8px;
+  }
+  .resource-tag {
+    font-size: 11px; padding: 4px 10px; background: #f5f4f0;
+    border-radius: 6px; color: #666; font-weight: 500;
+  }
+  .resource-link {
+    font-size: 12px; font-weight: 500; color: #1a1a1a; text-decoration: none;
+    padding: 6px 14px; border: 1px solid #ddd; border-radius: 6px; transition: background 0.2s;
+  }
+  .resource-link:hover { background: #f0ede7; }
+  .resource-link::after { content: " →"; }
+
+  /* ── Inline link ── */
+  .inline-link { color: #1a73e8; text-decoration: none; font-weight: 500; }
+  .inline-link:hover { text-decoration: underline; }
+
+  /* ── Break card ── */
+  .break-card {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 0; color: #999; font-size: 14px; font-style: italic;
+    border-bottom: 1px solid #f0ede7;
+  }
+
+  /* ── Code examples ── */
+  .code-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+  .code-example { border-radius: 8px; overflow: hidden; }
+  .code-label { font-size: 11px; font-weight: 600; letter-spacing: 0.5px; padding: 6px 14px; color: #fff; }
+  .code-label.danger { background: #dc3545; }
+  .code-label.safe { background: #198754; }
+  .code-block {
+    background: #1e1e2e; color: #cdd6f4; padding: 14px 18px;
+    font-family: 'Consolas', 'Monaco', monospace; font-size: 12px;
+    line-height: 1.7; overflow-x: auto;
+  }
+  .code-block .keyword { color: #cba6f7; }
+  .code-block .string { color: #a6e3a1; }
+  .code-block .comment { color: #6c7086; font-style: italic; }
+  .code-block .danger-highlight { color: #f38ba8; }
+  .code-block .type { color: #89b4fa; }
+
+  /* ── OWASP grid ── */
+  .owasp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 12px; }
+  .owasp-item {
+    display: flex; align-items: baseline; gap: 8px; padding: 6px 10px;
+    background: #f5f4f0; border-radius: 6px; font-size: 12px;
+  }
+  .owasp-code { font-weight: 600; color: #888; font-size: 11px; white-space: nowrap; font-family: 'Consolas', monospace; }
+  .owasp-name { color: #333; font-weight: 500; }
+  .owasp-dotnet { color: #888; font-size: 11px; }
+
+  /* ── Tool cards ── */
+  .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .tool-card {
+    border: 1px solid #e8e6e1; border-radius: 8px; padding: 14px 16px; background: #fff;
+  }
+  .tool-card .tool-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .tool-card .tool-type {
+    font-size: 11px; color: #888; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;
+  }
+  .tool-card .tool-desc { font-size: 12px; color: #555; line-height: 1.5; }
+
+  /* ── SecureStack highlight ── */
+  .securestack-section {
+    background: #0f172a; color: #fff; border-radius: 12px;
+    padding: 32px; margin-top: 14px;
+  }
+  .securestack-section h3 {
+    font-size: 22px; font-weight: 700; margin-bottom: 6px;
+  }
+  .securestack-section .ss-subtitle {
+    font-size: 14px; color: #94a3b8; margin-bottom: 20px;
+  }
+  .ss-pipeline {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px;
+  }
+  .ss-tool {
+    background: #1e293b; border-radius: 8px; padding: 14px; text-align: center;
+  }
+  .ss-tool .ss-tool-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .ss-tool .ss-tool-type { font-size: 10px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+  .ss-tool-gitleaks .ss-tool-name { color: #10b981; }
+  .ss-tool-semgrep .ss-tool-name { color: #a78bfa; }
+  .ss-tool-snyk .ss-tool-name { color: #fb923c; }
+  .ss-tool-trivy .ss-tool-name { color: #06b6d4; }
+  .ss-result {
+    display: flex; gap: 16px; justify-content: center; align-items: center;
+    padding: 14px; background: #1e293b; border-radius: 8px;
+    font-size: 13px; color: #cbd5e1; text-align: center;
+  }
+  .ss-pass { color: #10b981; font-weight: 600; }
+  .ss-fail { color: #ef4444; font-weight: 600; }
+  .ss-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+    margin-top: 16px;
+  }
+  .ss-stat {
+    text-align: center; padding: 12px;
+    background: #1e293b; border-radius: 8px;
+  }
+  .ss-stat .ss-num { font-size: 28px; font-weight: 700; }
+  .ss-stat .ss-lbl { font-size: 10px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+  .ss-stat:nth-child(1) .ss-num { color: #ef4444; }
+  .ss-stat:nth-child(2) .ss-num { color: #06b6d4; }
+  .ss-stat:nth-child(3) .ss-num { color: #10b981; }
+  .ss-stat:nth-child(4) .ss-num { color: #f59e0b; }
+
+  /* ── Submission section ── */
+  .submission-section {
+    background: #fafaf8; border-radius: 8px; padding: 18px 22px; margin-top: 16px;
+  }
+  .submission-section .sub-title {
+    font-size: 10px; font-weight: 600; letter-spacing: 1.2px;
+    text-transform: uppercase; color: #999; margin-bottom: 12px;
+  }
+  .submission-section ul { list-style: none; padding: 0; }
+  .submission-section li {
+    font-size: 13px; color: #444; padding: 4px 0; padding-left: 16px;
+    position: relative; line-height: 1.6;
+  }
+  .submission-section li::before { content: "→"; position: absolute; left: 0; color: #aaa; }
+
+  /* ── Deliverables ── */
+  .deliverables { margin-top: 48px; padding-top: 32px; border-top: 2px solid #e0ded8; }
+  .deliverables h3 { font-size: 15px; font-weight: 600; margin-bottom: 20px; }
+  .deliverables-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .deliverable-item { padding: 16px; background: #f5f4f0; border-radius: 8px; }
+  .deliverable-item h4 { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  .deliverable-item p { font-size: 12px; color: #666; line-height: 1.5; }
+
+  /* ── Footer ── */
+  .footer {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 48px; padding-top: 24px; border-top: 1px solid #e8e6e1;
+    font-size: 12px; color: #aaa;
+  }
+  .footer strong { color: #666; }
+
+  /* ── Presentation embed ── */
+  .pptx-callout {
+    background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px;
+    padding: 18px 24px; margin-top: 16px; display: flex;
+    justify-content: space-between; align-items: center;
+  }
+  .pptx-callout p { font-size: 13px; color: #166534; }
+  .pptx-callout a {
+    font-size: 12px; font-weight: 600; color: #166534;
+    text-decoration: none; padding: 8px 18px; background: #dcfce7;
+    border-radius: 6px; border: 1px solid #bbf7d0; white-space: nowrap;
+  }
+  .pptx-callout a:hover { background: #bbf7d0; }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .deliverables-grid { grid-template-columns: repeat(2, 1fr); }
+    .code-grid { grid-template-columns: 1fr; }
+    .owasp-grid { grid-template-columns: 1fr; }
+    .tools-grid { grid-template-columns: 1fr; }
+    .ss-pipeline { grid-template-columns: repeat(2, 1fr); }
+    .ss-stats { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- HEADER                                     -->
+  <!-- ══════════════════════════════════════════ -->
+  <!-- PPTX download banner at top -->
+  <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:14px 24px; margin-bottom:24px; display:flex; justify-content:space-between; align-items:center;">
+    <span style="font-size:13px; color:#166534;">📎 Full presentation deck available for download</span>
+    <a href="AlphaDevs_Secure_Development_Training.pptx" download style="font-size:12px; font-weight:600; color:#166534; text-decoration:none; padding:7px 16px; background:#dcfce7; border-radius:6px; border:1px solid #bbf7d0; white-space:nowrap;">Download Presentation (PPTX) →</a>
+  </div>
+
+  <div class="header">
+    <div class="label">AlphaDevs — Internal Training Program</div>
+    <h1>Secure Development Training Day</h1>
+    <p class="subtitle">Shift Left Methodology, Defensive Coding in .NET &amp; Automated Security with SecureStack</p>
+    <div class="tags">
+      <span class="tag">April 2026</span>
+      <span class="tag">.NET / C# Developers</span>
+      <span class="tag">Full day — 7 hours</span>
+      <span class="tag">6 learning modules</span>
+      <span class="tag">Zero cost tools</span>
+      <span class="tag">Windows / Visual Studio</span>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat"><div class="number">6</div><div class="stat-label">Learning Modules</div></div>
+    <div class="stat"><div class="number">7h</div><div class="stat-label">Total Duration</div></div>
+    <div class="stat"><div class="number">4</div><div class="stat-label">Security Tools</div></div>
+    <div class="stat"><div class="number">1</div><div class="stat-label">Commitment per Dev</div></div>
+  </div>
+
+  <!-- STATUS BANNER -->
+  <div class="status-banner">
+    <div class="status-title">Workstation Status Update</div>
+    <p>
+      On Friday, April 4, a hacker group encrypted all physical development workstations at the Tel Aviv office.
+      We responded immediately: all affected machines were cut off from the network, fully formatted, and are
+      currently being cleared and reinstalled one by one. This is a thorough process — every workstation is being
+      verified clean before it goes back online.
+    </p>
+    <div class="status-eta">Expected return to work: Friday April 11 or immediately after Easter</div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- MORNING BLOCK                               -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="section-divider">
+    <span class="section-title">Morning Block — Context &amp; Foundations</span>
+    <span class="section-time">09:00 – 12:00</span>
+  </div>
+
+  <!-- MODULE 1: What happened & why this training -->
+  <div class="module-card">
+    <div class="module-header">
+      <div style="display:flex; align-items:center;">
+        <span class="module-number">1</span>
+        <span class="module-title">What happened &amp; why this training matters</span>
+      </div>
+      <span class="module-time-badge">09:00 – 09:30</span>
+    </div>
+    <div class="module-desc">
+      <p style="margin-bottom:12px;">
+        Here's what we know. On Friday April 4, a threat actor gained access to our Tel Aviv office network and
+        deployed ransomware that encrypted the physical development workstations. The attack targeted the machines
+        directly — hard drives were encrypted, making them unusable.
+      </p>
+      <p style="margin-bottom:12px;">
+        Our response was immediate. We disconnected all affected machines from the network to prevent lateral spread.
+        Every workstation was fully formatted — no negotiation, no ransom. We are now clearing and reinstalling each
+        machine individually, verifying that every single one is clean before it goes back online. This takes time,
+        but it's the only way to be sure.
+      </p>
+      <p style="margin-bottom:12px;">
+        <strong>This is not about blaming anyone.</strong> Cyber attacks happen to the best organizations in the world.
+        What matters is how we respond — and what we change so this doesn't happen again. This training day is part of
+        that change.
+      </p>
+      <p>
+        While the workstations are being restored, we're using this time productively. Today you'll learn about
+        secure development practices, the tools that catch vulnerabilities before they reach production, and a new
+        automated security pipeline called SecureStack that will be part of every Pull Request going forward.
+      </p>
+    </div>
+
+    <p style="font-size:14px; color:#555; margin-bottom:8px;">
+      Some numbers to set the context:
+    </p>
+    <div class="stats-bar" style="margin:12px 0 0 0;">
+      <div class="stat"><div class="number" style="color:#dc3545;">70%</div><div class="stat-label">of breaches start with a code vulnerability</div></div>
+      <div class="stat"><div class="number" style="color:#f59e0b;">$4.88M</div><div class="stat-label">average cost of a data breach (2024)</div></div>
+      <div class="stat"><div class="number" style="color:#06b6d4;">277</div><div class="stat-label">days to detect a breach on average</div></div>
+      <div class="stat"><div class="number" style="color:#8b5cf6;">100x</div><div class="stat-label">cost multiplier: fixing in prod vs. in code</div></div>
+    </div>
+
+    <div class="dev-tasks">
+      <div class="dev-tasks-title">Your Task</div>
+      <ul>
+        <li>Read the context above carefully.</li>
+        <li>Write down one sentence: "The vulnerability category that most likely matches this incident is ____."</li>
+        <li>Keep your answer — you'll revisit it at the end of the day to see if your thinking changed.</li>
+      </ul>
+    </div>
+    <div class="resource-tags">
+      <div style="display:flex; gap:6px; flex-wrap:wrap;">
+        <span class="resource-tag">30 minutes</span>
+        <span class="resource-tag">self-read</span>
+        <span class="resource-tag">no tools required</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODULE 2: Shift Left + OWASP -->
+  <div class="module-card">
+    <div class="module-header">
+      <div style="display:flex; align-items:center;">
+        <span class="module-number">2</span>
+        <span class="module-title">Shift Left methodology &amp; OWASP Top 10 for .NET</span>
+      </div>
+      <span class="module-time-badge">09:30 – 11:30</span>
+    </div>
+    <div class="module-desc">
+      <p style="margin-bottom:12px;">
+        <strong>Shift Left</strong> means moving security testing earlier in the development lifecycle — instead of
+        finding vulnerabilities after deployment (when they cost 100x more to fix), we catch them while the code is
+        being written. This is the single most important concept in modern secure development.
+      </p>
+      <p style="margin-bottom:12px;">
+        Finding a bug during a code review takes minutes to fix. Finding the same bug in production — after a breach —
+        takes weeks and costs tens of thousands of dollars. The goal of this training is to move your security mindset
+        to the left: catch it while you code, not after it's deployed.
+      </p>
+      <p>
+        The <strong>OWASP Top 10</strong> is the industry-standard list of the most critical web application security
+        risks. Below is how each one applies to your .NET / C# codebase. Your task is to read the full OWASP
+        documentation and connect each category to your own code.
+      </p>
+    </div>
+
+    <div class="owasp-grid">
+      <div class="owasp-item"><span class="owasp-code">A01</span><span class="owasp-name">Broken Access Control</span><span class="owasp-dotnet">— missing [Authorize]</span></div>
+      <div class="owasp-item"><span class="owasp-code">A02</span><span class="owasp-name">Cryptographic Failures</span><span class="owasp-dotnet">— plaintext in appsettings</span></div>
+      <div class="owasp-item"><span class="owasp-code">A03</span><span class="owasp-name">Injection</span><span class="owasp-dotnet">— SQL via string concat</span></div>
+      <div class="owasp-item"><span class="owasp-code">A04</span><span class="owasp-name">Insecure Design</span><span class="owasp-dotnet">— no input validation</span></div>
+      <div class="owasp-item"><span class="owasp-code">A05</span><span class="owasp-name">Security Misconfiguration</span><span class="owasp-dotnet">— debug in production</span></div>
+      <div class="owasp-item"><span class="owasp-code">A06</span><span class="owasp-name">Vulnerable Components</span><span class="owasp-dotnet">— outdated NuGet pkgs</span></div>
+      <div class="owasp-item"><span class="owasp-code">A07</span><span class="owasp-name">Auth Failures</span><span class="owasp-dotnet">— weak passwords, no MFA</span></div>
+      <div class="owasp-item"><span class="owasp-code">A08</span><span class="owasp-name">Data Integrity Failures</span><span class="owasp-dotnet">— BinaryFormatter!</span></div>
+      <div class="owasp-item"><span class="owasp-code">A09</span><span class="owasp-name">Logging Failures</span><span class="owasp-dotnet">— logging PII data</span></div>
+      <div class="owasp-item"><span class="owasp-code">A10</span><span class="owasp-name">SSRF</span><span class="owasp-dotnet">— unvalidated HttpClient URLs</span></div>
+    </div>
+
+    <div class="dev-tasks">
+      <div class="dev-tasks-title">Your Task</div>
+      <ul>
+        <li>Read all 10 OWASP categories at <a class="inline-link" href="https://owasp.org/Top10/" target="_blank">owasp.org/Top10</a> — estimated 60–80 min at a proper reading pace. Don't skim. Read each category's attack scenarios and prevention checklist.</li>
+        <li>Read the Shift Left / DevSecOps guideline at <a class="inline-link" href="https://owasp.org/www-project-devsecops-guideline/" target="_blank">owasp.org DevSecOps Guideline</a> — estimated 20 min.</li>
+        <li>For each OWASP category, write one sentence: "In our codebase, this could appear as ____."</li>
+        <li>Choose your top 3 most relevant categories and prepare a 90-second verbal summary to share.</li>
+      </ul>
+    </div>
+    <div class="resource-tags">
+      <div style="display:flex; gap:6px; flex-wrap:wrap;">
+        <span class="resource-tag">2 hours</span>
+        <span class="resource-tag">self-paced reading</span>
+        <span class="resource-tag">free</span>
+      </div>
+      <div style="display:flex; gap:6px;">
+        <a class="resource-link" href="https://owasp.org/Top10/" target="_blank">OWASP Top 10</a>
+        <a class="resource-link" href="https://owasp.org/www-project-devsecops-guideline/" target="_blank">Shift Left Guide</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODULE 3: Secure Coding in C# -->
+  <div class="module-card">
+    <div class="module-header">
+      <div style="display:flex; align-items:center;">
+        <span class="module-number">3</span>
+        <span class="module-title">Secure coding patterns in C# — with code examples</span>
+      </div>
+      <span class="module-time-badge">11:30 – 12:00</span>
+    </div>
+    <div class="module-desc">
+      <p style="margin-bottom:12px;">
+        Now that you understand the OWASP categories, let's look at how they show up in actual C# code. Below
+        are common patterns — the dangerous version on the left, the secure version on the right. These are real
+        patterns that appear in production .NET codebases every day.
+      </p>
+    </div>
+
+    <div class="code-grid">
+      <div class="code-example">
+        <div class="code-label danger">DANGEROUS — SQL Injection</div>
+        <div class="code-block"><span class="keyword">var</span> query = <span class="string">$"SELECT * FROM Users<br>&nbsp;&nbsp;WHERE Name = '<span class="danger-highlight">{input}</span>'"</span>;<br><span class="comment">// Attacker injects: ' OR 1=1 --</span><br><span class="comment">// Returns ALL users from the DB</span></div>
+      </div>
+      <div class="code-example">
+        <div class="code-label safe">SAFE — Parameterized Query</div>
+        <div class="code-block"><span class="keyword">var</span> cmd = <span class="keyword">new</span> <span class="type">SqlCommand</span>(<br>&nbsp;&nbsp;<span class="string">"SELECT * FROM Users WHERE Name = @n"</span>);<br>cmd.Parameters.AddWithValue(<span class="string">"@n"</span>, input);<br><span class="comment">// Input treated as data, never code</span></div>
+      </div>
+    </div>
+
+    <div class="code-grid" style="margin-top:8px;">
+      <div class="code-example">
+        <div class="code-label danger">DANGEROUS — Hardcoded Secrets</div>
+        <div class="code-block"><span class="keyword">var</span> connStr = <span class="string">"Server=db;<br>&nbsp;&nbsp;Password=<span class="danger-highlight">P@ssw0rd123!</span>"</span>;<br><span class="comment">// Anyone with repo access sees this</span><br><span class="comment">// If pushed to GitHub — game over</span></div>
+      </div>
+      <div class="code-example">
+        <div class="code-label safe">SAFE — User Secrets / Key Vault</div>
+        <div class="code-block"><span class="keyword">var</span> connStr = Configuration<br>&nbsp;&nbsp;.GetConnectionString(<span class="string">"Default"</span>);<br><span class="comment">// Stored in Azure Key Vault</span><br><span class="comment">// Rotated without code changes</span></div>
+      </div>
+    </div>
+
+    <div class="code-grid" style="margin-top:8px;">
+      <div class="code-example">
+        <div class="code-label danger">DANGEROUS — Insecure Deserialization</div>
+        <div class="code-block"><span class="keyword">var</span> fmt = <span class="keyword">new</span> <span class="type">BinaryFormatter</span>();<br><span class="keyword">var</span> obj = fmt.Deserialize(stream);<br><span class="comment">// Remote Code Execution risk!</span><br><span class="comment">// BinaryFormatter is banned in .NET 8+</span></div>
+      </div>
+      <div class="code-example">
+        <div class="code-label safe">SAFE — System.Text.Json</div>
+        <div class="code-block"><span class="keyword">var</span> obj = <span class="type">JsonSerializer</span><br>&nbsp;&nbsp;.Deserialize&lt;<span class="type">MyType</span>&gt;(json);<br><span class="comment">// Type-safe, no code execution</span><br><span class="comment">// Modern .NET standard</span></div>
+      </div>
+    </div>
+
+    <div class="dev-tasks">
+      <div class="dev-tasks-title">Your Task</div>
+      <ul>
+        <li>Study the code examples above. For each pair, make sure you understand <em>why</em> the left version is dangerous.</li>
+        <li>Read the ASP.NET Core Security overview: <a class="inline-link" href="https://learn.microsoft.com/en-us/aspnet/core/security/" target="_blank">Microsoft Security Docs</a> — 20 min focused reading.</li>
+        <li>Read the .NET secrets management guide: <a class="inline-link" href="https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets" target="_blank">User Secrets in .NET</a></li>
+        <li>Check your own project: does it have secrets in appsettings.json? Run: <code style="background:#f0ede7; padding:2px 6px; border-radius:3px; font-size:11px;">dotnet user-secrets list</code></li>
+        <li>Write one sentence: "The secure coding pattern I'll adopt first is ____."</li>
+      </ul>
+    </div>
+    <div class="resource-tags">
+      <div style="display:flex; gap:6px; flex-wrap:wrap;">
+        <span class="resource-tag">30 minutes</span>
+        <span class="resource-tag">Microsoft Docs</span>
+        <span class="resource-tag">C# / ASP.NET Core</span>
+      </div>
+      <div style="display:flex; gap:6px; flex-wrap:wrap;">
+        <a class="resource-link" href="https://learn.microsoft.com/en-us/aspnet/core/security/" target="_blank">Security Docs</a>
+        <a class="resource-link" href="https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets" target="_blank">User Secrets</a>
+        <a class="resource-link" href="https://learn.microsoft.com/en-us/dotnet/standard/security/secure-coding-guidelines" target="_blank">Secure Coding</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- LUNCH -->
+  <div class="break-card">
+    <span>Lunch break</span>
+    <span>12:00 – 13:00</span>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- AFTERNOON BLOCK                             -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="section-divider">
+    <span class="section-title">Afternoon Block — Hands-on Security Tools</span>
+    <span class="section-time">13:00 – 15:30</span>
+  </div>
+
+  <!-- MODULE 4: Snyk Learn -->
+  <div class="module-card">
+    <div class="module-header">
+      <div style="display:flex; align-items:center;">
+        <span class="module-number">4</span>
+        <span class="module-title">Snyk Learn — interactive secure coding labs</span>
+      </div>
+      <span class="module-time-badge">13:00 – 14:30</span>
+    </div>
+    <div class="module-desc">
+      <p style="margin-bottom:12px;">
+        Time to get hands-on. Snyk Learn is a free, browser-based platform with language-specific secure coding
+        labs. Every module presents real vulnerable code, explains the exploit mechanism step by step, and walks
+        you through writing the fix yourself. No account required, no installation, works directly in your browser.
+      </p>
+    </div>
+    <div class="dev-tasks">
+      <div class="dev-tasks-title">Your Task</div>
+      <ul>
+        <li>Go to <a class="inline-link" href="https://learn.snyk.io" target="_blank">learn.snyk.io</a> — select C# or your primary language (JavaScript, Python, Java, Go are also available).</li>
+        <li>Complete a minimum of 3 modules. Recommended: <strong>SQL Injection</strong>, <strong>Cross-Site Scripting (XSS)</strong>, <strong>Broken Authentication</strong>.</li>
+        <li>For each module: note the fix pattern in one sentence. You'll apply one of these in your next code contribution.</li>
+        <li>Bonus: try the "Dependency Vulnerabilities" module to understand what Snyk does in our pipeline.</li>
+      </ul>
+    </div>
+    <div class="resource-tags">
+      <div style="display:flex; gap:6px; flex-wrap:wrap;">
+        <span class="resource-tag">90 minutes</span>
+        <span class="resource-tag">interactive</span>
+        <span class="resource-tag">free</span>
+        <span class="resource-tag">no account needed</span>
+      </div>
+      <a class="resource-link" href="https://learn.snyk.io" target="_blank">Open Snyk Learn</a>
+    </div>
+  </div>
+
+  <!-- MODULE 5: 4 Tools Deep Dive -->
+  <div class="module-card">
+    <div class="module-header">
+      <div style="display:flex; align-items:center;">
+        <span class="module-number">5</span>
+        <span class="module-title">The 4 security tools — understand what protects your code</span>
+      </div>
+      <span class="module-time-badge">14:30 – 15:30</span>
+    </div>
+    <div class="module-desc">
+      <p style="margin-bottom:12px;">
+        Before we introduce our SecureStack pipeline, you need to understand each of the 4 tools that power it.
+        These are all open-source, industry-standard tools used by companies like Google, Microsoft, and Netflix.
+        Together, they cover every major category of code vulnerability.
+      </p>
+    </div>
+
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-name" style="color:#10b981;">Gitleaks</div>
+        <div class="tool-type">Secret Detection</div>
+        <div class="tool-desc">Scans every commit for leaked passwords, API keys, tokens, and connection strings. Uses 150+ regex patterns. Scans your entire Git history — not just the latest code. If you ever accidentally committed a password, Gitleaks will find it.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name" style="color:#8b5cf6;">Semgrep</div>
+        <div class="tool-type">Static Analysis (SAST)</div>
+        <div class="tool-desc">Reads your C# code without running it. Finds insecure patterns like SQL injection, XSS, insecure deserialization, and missing auth attributes. Has 1,500+ security rules and understands code semantics — not just text matching.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name" style="color:#fb923c;">Snyk</div>
+        <div class="tool-type">Dependency Scanning (SCA)</div>
+        <div class="tool-desc">Checks every NuGet package in your project against CVE vulnerability databases. Finds transitive (indirect) vulnerabilities too — packages your packages depend on. Suggests exact upgrade versions to fix each issue.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name" style="color:#06b6d4;">Trivy</div>
+        <div class="tool-type">Container &amp; IaC Scanning</div>
+        <div class="tool-desc">Scans Docker images, Dockerfiles, and infrastructure-as-code files for OS-level vulnerabilities and misconfigurations. Even if your code is perfect, the base image might have 50+ vulnerabilities. Trivy catches those.</div>
+      </div>
+    </div>
+
+    <div class="dev-tasks">
+      <div class="dev-tasks-title">Your Task</div>
+      <ul>
+        <li>Read the <a class="inline-link" href="https://github.com/gitleaks/gitleaks" target="_blank">Gitleaks README</a> on GitHub — understand what it detects and how to allowlist false positives (~10 min).</li>
+        <li>Browse the <a class="inline-link" href="https://semgrep.dev/r?lang=csharp" target="_blank">Semgrep C# rule library</a> — find 3 rules relevant to your codebase (~15 min).</li>
+        <li>Run <code style="background:#f0ede7; padding:2px 6px; border-radius:3px; font-size:11px;">dotnet list package --vulnerable --include-transitive</code> on your project — see what Snyk would find (~5 min).</li>
+        <li>Read the <a class="inline-link" href="https://github.com/aquasecurity/trivy" target="_blank">Trivy quickstart</a> — understand container scanning basics (~10 min).</li>
+        <li>For each tool, write one sentence: "This tool would catch ____ in our codebase."</li>
+      </ul>
+    </div>
+    <div class="resource-tags">
+      <div style="display:flex; gap:6px; flex-wrap:wrap;">
+        <span class="resource-tag">60 minutes</span>
+        <span class="resource-tag">all open-source</span>
+        <span class="resource-tag">free</span>
+      </div>
+      <div style="display:flex; gap:6px; flex-wrap:wrap;">
+        <a class="resource-link" href="https://github.com/gitleaks/gitleaks" target="_blank">Gitleaks</a>
+        <a class="resource-link" href="https://semgrep.dev/docs/" target="_blank">Semgrep</a>
+        <a class="resource-link" href="https://security.snyk.io/" target="_blank">Snyk DB</a>
+        <a class="resource-link" href="https://github.com/aquasecurity/trivy" target="_blank">Trivy</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- CLOSING BLOCK — SECURESTACK                 -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="section-divider">
+    <span class="section-title">Closing Block — SecureStack &amp; Commitments</span>
+    <span class="section-time">15:30 – 16:30</span>
+  </div>
+
+  <!-- MODULE 6: SecureStack -->
+  <div class="module-card" style="padding-bottom:16px;">
+    <div class="module-header">
+      <div style="display:flex; align-items:center;">
+        <span class="module-number">6</span>
+        <span class="module-title">SecureStack — all 4 tools in one automated pipeline</span>
+      </div>
+      <span class="module-time-badge">15:30 – 16:00</span>
+    </div>
+    <div class="module-desc">
+      <p style="margin-bottom:12px;">
+        Now you understand each tool individually. Here's how they work together. <strong>SecureStack</strong> is
+        AlphaDevs' automated security pipeline that combines Gitleaks + Semgrep + Snyk + Trivy into a single
+        system that runs on every Pull Request. You don't need to install anything or run any commands — when you
+        push code and open a PR, all 4 scans trigger automatically.
+      </p>
+      <p style="margin-bottom:12px;">
+        If all checks pass — your PR can be merged. If any check fails — the PR is blocked until you fix the
+        findings. No exceptions. This isn't about slowing you down — it's about catching issues in minutes instead
+        of discovering them after a breach.
+      </p>
+      <p>
+        The first time we ran SecureStack on a real client codebase, the results were immediate:
+      </p>
+    </div>
+
+    <!-- SecureStack dark section -->
+    <div class="securestack-section">
+      <h3>SecureStack Pipeline</h3>
+      <p class="ss-subtitle">What happens automatically when you open a Pull Request</p>
+
+      <div class="ss-pipeline">
+        <div class="ss-tool ss-tool-gitleaks">
+          <div class="ss-tool-name">Gitleaks</div>
+          <div class="ss-tool-type">Secret Detection</div>
+        </div>
+        <div class="ss-tool ss-tool-semgrep">
+          <div class="ss-tool-name">Semgrep</div>
+          <div class="ss-tool-type">Static Analysis</div>
+        </div>
+        <div class="ss-tool ss-tool-snyk">
+          <div class="ss-tool-name">Snyk</div>
+          <div class="ss-tool-type">Dependencies</div>
+        </div>
+        <div class="ss-tool ss-tool-trivy">
+          <div class="ss-tool-name">Trivy</div>
+          <div class="ss-tool-type">Containers</div>
+        </div>
+      </div>
+
+      <div class="ss-result">
+        <span><span class="ss-pass">ALL PASS</span> → PR can be merged. Code is verified secure.</span>
+        <span style="color:#475569;">|</span>
+        <span><span class="ss-fail">ANY FAIL</span> → PR blocked until issues are fixed.</span>
+      </div>
+
+      <p style="color:#94a3b8; font-size:13px; margin-top:20px; margin-bottom:8px;">First scan results on a real codebase:</p>
+      <div class="ss-stats">
+        <div class="ss-stat"><div class="ss-num">23</div><div class="ss-lbl">Issues Found</div></div>
+        <div class="ss-stat"><div class="ss-num">11 min</div><div class="ss-lbl">Total Scan Time</div></div>
+        <div class="ss-stat"><div class="ss-num">4</div><div class="ss-lbl">Parallel Scans</div></div>
+        <div class="ss-stat"><div class="ss-num">48h</div><div class="ss-lbl">Time to Fix All</div></div>
+      </div>
+    </div>
+
+    <div class="pptx-callout">
+      <p>The full SecureStack presentation with detailed slides, diagrams, and scan examples is available as a separate deck.</p>
+      <a href="AlphaDevs_Secure_Development_Training.pptx" download>Download Presentation (PPTX)</a>
+    </div>
+
+    <div class="dev-tasks">
+      <div class="dev-tasks-title">Your Task</div>
+      <ul>
+        <li>Download and review the SecureStack presentation deck — go through all slides at your own pace (~20 min).</li>
+        <li>Visit the <a class="inline-link" href="https://github.com/lior-source/alphadev-security-pack" target="_blank">SecureStack GitHub repo</a> — read the README to understand the pipeline configuration.</li>
+        <li>When workstations are back online: open one existing branch as a PR and observe the 4 scan results.</li>
+      </ul>
+    </div>
+    <div class="resource-tags">
+      <div style="display:flex; gap:6px; flex-wrap:wrap;">
+        <span class="resource-tag">30 minutes</span>
+        <span class="resource-tag">GitHub</span>
+        <span class="resource-tag">AlphaDevs</span>
+      </div>
+      <a class="resource-link" href="https://github.com/lior-source/alphadev-security-pack" target="_blank">SecureStack Repo</a>
+    </div>
+  </div>
+
+  <!-- CLOSING: Action Items -->
+  <div class="module-card">
+    <div class="module-header">
+      <div style="display:flex; align-items:center;">
+        <span class="module-number" style="background:#e8e6e1;">✓</span>
+        <span class="module-title">Personal action items + day close</span>
+      </div>
+      <span class="module-time-badge">16:00 – 16:30</span>
+    </div>
+    <div class="module-desc">
+      <p>
+        Final step. Every person submits their personal takeaways and one concrete commitment for their next
+        code contribution. Also revisit the sentence you wrote in Module 1 — does the vulnerability category
+        still match? Did today change your assessment?
+      </p>
+    </div>
+    <div class="submission-section">
+      <div class="sub-title">Submit in Writing (send to your manager)</div>
+      <ul>
+        <li>The vulnerability type I now understand significantly better after today: ____</li>
+        <li>The one concrete change I will make in my next code contribution: ____</li>
+        <li>One Semgrep rule ID I want added to our pipeline: ____</li>
+        <li>One open question I still have after today: ____</li>
+      </ul>
+    </div>
+    <div class="resource-tags">
+      <div style="display:flex; gap:6px; flex-wrap:wrap;">
+        <span class="resource-tag">output: individual summary cards</span>
+        <span class="resource-tag">feeds end-of-week report</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DELIVERABLES -->
+  <div class="deliverables">
+    <h3>Deliverables from today</h3>
+    <div class="deliverables-grid">
+      <div class="deliverable-item">
+        <h4>OWASP findings map</h4>
+        <p>Team-level identification of the top vulnerabilities most relevant to the client's .NET codebase.</p>
+      </div>
+      <div class="deliverable-item">
+        <h4>PR process improvements</h4>
+        <p>2–3 agreed security checkpoints to be added to the team's code review workflow.</p>
+      </div>
+      <div class="deliverable-item">
+        <h4>Individual action items</h4>
+        <p>One specific, code-level security commitment from every developer on the team.</p>
+      </div>
+      <div class="deliverable-item">
+        <h4>Client summary report</h4>
+        <p>End-of-week report with training findings, process changes, and next steps.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span>All resources are free and accessible directly from any browser. No installations required.</span>
+    <strong>Delivered by AlphaDevs</strong>
+  </div>
+
+</div>
+</body>
+</html>
